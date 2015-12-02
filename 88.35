@@ -1,0 +1,38 @@
+%accuracy of 88.35
+x=words_train;
+y=genders_train;
+x_test=words_test;
+image_features_train = train_image_features;
+image_features_test = test_image_features;
+
+%% Most Frequent words for each gender
+females=x((find(y==1)),:);
+f1=sum(females);
+u=unique(f1);
+%features=sort(u, 'descend');
+femalewords=find(f1>=3000);
+
+males=x((find(y==0)),:);
+m1=sum(males);
+u_males=unique(m1);
+%features_males=sort(u_males, 'descend');
+malewords=find(m1>=3000);
+
+features=[femalewords malewords];
+xhat=[x(:,unique(features)) image_features_train];
+xhat_test=[x_test(:,unique(features)) image_features_test];
+
+%% Kernel SVM
+k = @(x1,x2) kernel_intersection(x1, x2);
+ktrain = k(xhat, xhat);
+ktest = k(xhat, xhat_test);
+Ytest = zeros(size(x_test,1),1);
+
+crange = 10.^[-10:2:3];
+for i = 1:numel(crange)
+    acc(i) = svmtrain(y, [(1:size(ktrain,1))' ktrain], sprintf('-t 4 -v 10 -c %g', crange(i)));
+end
+[~, bestc] = max(acc);
+fprintf('Cross-val chose best C = %g\n', crange(bestc));
+model = svmtrain(y, [(1:size(ktrain,1))' ktrain], sprintf('-t 4 -c %g', crange(bestc)));
+[yhat acc vals] = svmpredict(Ytest, [(1:size(ktest,1))' ktest], model);
