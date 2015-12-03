@@ -10,8 +10,5 @@ function [part] = make_xval_partition(n, n_folds)
 % where PART(i) is a number in (1...N_FOLDS) indicating the fold assignment
 % of the i'th data point.
 
-% YOUR CODE GOES HERE
-
-part = randperm(n);
-part = mod(part, n_folds);
-part = part + 1; % make values range from 1 to n_folds
+part=zeros(1,n); %initializing part vector
+part = mod(randperm(n),n_folds)+1 ;
