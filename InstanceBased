@@ -4,7 +4,7 @@ function [ genders_test ] = InstanceBased( image_features_train,genders_train,im
 %K is the number of neighbours to be considered
 %distFunc is the distance parameter used in kernel regression
 
-%Applying kernel regression to the data
+%Applying KNN to the data
 K=100;
 distFunc='l2';
 normalized_train = bsxfun(@rdivide,image_features_train,sum(image_features_train));
