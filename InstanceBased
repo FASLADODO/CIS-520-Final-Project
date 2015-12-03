@@ -5,9 +5,10 @@ function [ genders_test ] = InstanceBased( image_features_train,genders_train,im
 %distFunc is the distance parameter used in kernel regression
 
 %Applying kernel regression to the data
-K=75;
-distFunc='l1';
-genders_test=knn_test(K,image_features_train,genders_train,image_features_test,distFunc);
-
+K=100;
+distFunc='l2';
+normalized_train = bsxfun(@rdivide,image_features_train,sum(image_features_train));
+normalized_test = bsxfun(@rdivide,image_features_test,sum(image_features_test));
+genders_test=knn_test(K,normalized_train,genders_train,normalized_test,distFunc);
+genders_test=double(bsxfun(@ge,genders_test,mean(genders_test)));
 end
-
