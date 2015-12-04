@@ -18,9 +18,9 @@ words_male=find(m1>=5000);
 %Normalizing data before applying our model to it
 features=[words_female words_male];
 xhat=[x(:,unique(features)) image_features_train];
-xhat = bsxfun(@rdivide,xhat,sum(xhat));
+%xhat = bsxfun(@rdivide,xhat,sum(xhat));
 xhat_test=[x_test(:,unique(features)) image_features_test];
-xhat_test = bsxfun(@rdivide,xhat_test,sum(xhat_test));
+%xhat_test = bsxfun(@rdivide,xhat_test,sum(xhat_test));
 
 %Naive Bayes model
 nb=fitcnb(xhat,genders_train);
