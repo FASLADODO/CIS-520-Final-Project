@@ -1,9 +1,5 @@
 function K = chiSquared_kernel(X, X2)
 
-% one=(X-X2).^2;
-% two= one./(X+X2);
-% K= exp(-sum(two));
-
 n = size(X,1);
 m = size(X2,1);
 K = zeros(m, n);
@@ -12,7 +8,6 @@ transX=X';
 transX2=X2';
 for i=1:m
     for j=1:n          
-one = ((transX2(:,i)-transX(:,j)).^2) ./ (transX2(:,i)+transX(:,j));
-K(i,j)= 1-(sum(one)./2);
+K(i,j) = sum(((transX2(:,i)-transX(:,j)).^2) ./ (transX2(:,i)+transX(:,j)));
     end
 end
