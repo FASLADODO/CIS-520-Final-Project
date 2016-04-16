@@ -11,7 +11,16 @@ function [part] = make_xval_partition(n, n_folds)
 % of the i'th data point.
 
 % YOUR CODE GOES HERE
-
-part = randperm(n);
-part = mod(part, n_folds);
-part = part + 1; % make values range from 1 to n_folds
+part=zeros(1,n);
+one=randperm(n);
+count=1;
+for i=1:n
+    if(count>n_folds)
+        
+            count=1;
+    end;
+    part(one(i))=count;
+    count=count+1;
+    
+end;
+end
